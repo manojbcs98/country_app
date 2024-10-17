@@ -1,9 +1,4 @@
 import 'package:country_app/barrel.dart';
-
-
-import '../../barrel.dart';
-import '../services/country_api_service_interface.dart';
-
 class CountryService {
   final ICountryApiService _apiService;
   final ICountryCacheService cacheService;

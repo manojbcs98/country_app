@@ -1,7 +1,9 @@
 import 'package:country_app/barrel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'dart:async';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,7 +21,17 @@ class _SplashScreenState extends State<SplashScreen> {
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const CountryListView()),
+          MaterialPageRoute(
+              builder: (context) => MultiProvider(providers: [
+                    BlocProvider(
+                      create: (context) => CountryCubit(
+                        CountryService(
+                            CountryApiService(), CountryCacheService()),
+                      )
+                        ..loadCachedCountries()
+                        ..loadCountries(),
+                    ),
+                  ], child: const CountryListView())),
         );
       }
     });

@@ -36,17 +36,20 @@ class CountryTile extends StatelessWidget {
                 children: [
                   Text(
                     country.commonName,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 4),
                   Text(
                     country.officialName,
-                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w500),
                   ),
                   SizedBox(height: 4),
                   Text(
                     country.currencyName,
-                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w500),
                   ),
                 ],
               ),

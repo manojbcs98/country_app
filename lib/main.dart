@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'barrel.dart';
 
-
 void main() {
   runApp(
     ChangeNotifierProvider(
@@ -20,9 +19,8 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Country App',
           debugShowCheckedModeBanner: false,
-          theme: themeNotifier.isDarkTheme
-              ? ThemeData.dark()
-              : ThemeData.light(),
+          theme:
+              themeNotifier.isDarkTheme ? ThemeData.dark() : ThemeData.light(),
           home: const SplashScreen(),
         );
       },
