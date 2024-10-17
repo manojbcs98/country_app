@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           theme: themeNotifier.isDarkTheme
               ? ThemeData.dark()
               : ThemeData.light(),
-          home: const CountryListView(),
+          home: const SplashScreen(),
         );
       },
     );

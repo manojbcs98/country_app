@@ -1,0 +1,38 @@
+import 'package:country_app/barrel.dart';
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'dart:async';
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(const Duration(seconds: 4), () {
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const CountryListView()),
+        );
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Lottie.asset(
+        "assets/splash_lottie.json",
+        height: MediaQuery.of(context).size.height * 1,
+        animate: true,
+      ),
+    );
+  }
+}
