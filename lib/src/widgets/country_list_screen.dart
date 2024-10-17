@@ -85,6 +85,7 @@ class _CountryListViewState extends State<CountryListView> {
         ],
       ),
       body: CustomScrollView(
+        physics: BouncingScrollPhysics(),
         controller: _scrollController,
         slivers: [
           SliverPersistentHeader(
@@ -102,17 +103,16 @@ class _CountryListViewState extends State<CountryListView> {
                   child: Center(child: CircularProgressIndicator()),
                 );
               } else if (state is CountryError) {
-                return SliverToBoxAdapter(
-                  child: Center(child: Text(state.message)),
-                );
+                return _buildNoCountriesFound(state.message, '');
               } else if (state is CountryLoaded) {
                 if (state.countries.isEmpty) {
-                  return _buildNoCountriesFound();
+                  return _buildNoCountriesFound('No countries available.',
+                      'Please try a different search.');
                 }
 
                 return SliverList(
                   delegate: SliverChildBuilderDelegate(
-                        (context, index) {
+                    (context, index) {
                       return CountryTile(country: state.countries[index]);
                     },
                     childCount: state.countries.length,
@@ -128,14 +128,14 @@ class _CountryListViewState extends State<CountryListView> {
       ),
       floatingActionButton: _isAtBottom
           ? FloatingActionButton(
-        onPressed: _scrollToTop,
-        child: const Icon(Icons.arrow_upward),
-      )
+              onPressed: _scrollToTop,
+              child: const Icon(Icons.arrow_upward),
+            )
           : null,
     );
   }
 
-  Widget _buildNoCountriesFound() {
+  Widget _buildNoCountriesFound(String msg1, String? msg2) {
     return SliverToBoxAdapter(
       child: Container(
         height: 150,
@@ -156,12 +156,20 @@ class _CountryListViewState extends State<CountryListView> {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Icon(Icons.warning, size: 40, color: Colors.redAccent),
-              SizedBox(height: 10),
-              Text('No Countries Found', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87)),
-              SizedBox(height: 5),
-              Text('Please try a different search.', textAlign: TextAlign.center, style: TextStyle(fontSize: 14, color: Colors.black54)),
+            children: [
+              const Icon(Icons.warning, size: 40, color: Colors.redAccent),
+              const SizedBox(height: 10),
+              Text(msg1,
+                  style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87)),
+              const SizedBox(height: 5),
+              if (msg2 != null && msg2 != '')
+                Text(msg2,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 16, color: Colors.black.withOpacity(0.9))),
             ],
           ),
         ),
@@ -177,4 +185,3 @@ class _CountryListViewState extends State<CountryListView> {
     );
   }
 }
-

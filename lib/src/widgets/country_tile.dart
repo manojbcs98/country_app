@@ -47,6 +47,11 @@ class CountryTile extends StatelessWidget {
                   ),
                   SizedBox(height: 4),
                   Text(
+                    country.region,
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w500),
+                  ),
+                  Text(
                     country.currencyName,
                     style: const TextStyle(
                         fontSize: 14, fontWeight: FontWeight.w500),

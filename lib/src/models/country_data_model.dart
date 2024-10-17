@@ -4,6 +4,7 @@ class Country {
   final String currencyName;
   final String flagUrl;
   final String symbol;
+  final String region;
 
   Country({
     required this.commonName,
@@ -11,6 +12,7 @@ class Country {
     required this.currencyName,
     required this.flagUrl,
     required this.symbol,
+    required this.region,
   });
 
   factory Country.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,7 @@ class Country {
         currencyName: _getCurrencyValue(json['currencies'], 'name'),
         flagUrl: json['flags']['png'] ?? '',
         symbol: _getCurrencyValue(json['currencies'], 'symbol'),
+          region: json['region'] ?? ''
       );
     } catch (e) {
       print('Error parsing Country: ${e.toString()}');
@@ -41,6 +44,7 @@ class Country {
       'flags': {
         'png': flagUrl,
       },
+      'region': region,
     };
   }
 

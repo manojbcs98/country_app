@@ -67,6 +67,8 @@ class CountryCubit extends Cubit<CountryState> {
       _allCountries.sort((a, b) => a.commonName.compareTo(b.commonName));
     } else if (sortOrder == SortOrder.zToA) {
       _allCountries.sort((a, b) => b.commonName.compareTo(a.commonName));
+    } else {
+      _allCountries.sort((a, b) => a.region.compareTo(b.region));
     }
     emit(CountryLoaded(
         _allCountries)); // Emit the new state with sorted countries

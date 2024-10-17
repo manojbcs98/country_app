@@ -1,1 +1,1 @@
-enum SortOrder { aToZ, zToA }
+enum SortOrder { aToZ, zToA, region }
