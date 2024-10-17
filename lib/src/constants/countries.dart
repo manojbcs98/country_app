@@ -1,0 +1,17 @@
+const List<String> countryNames = [
+  'germany',
+  'india',
+  'israel',
+  'lanka',
+  'italy',
+  'china',
+  'korea',
+  'kenya',
+  'canada',
+  'usa',
+  'australia',
+  'fiji',
+  'sweden',
+  'chile',
+  'mexico',
+];
