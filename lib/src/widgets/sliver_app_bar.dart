@@ -35,11 +35,10 @@ class SliverSearchAppBar extends SliverPersistentHeaderDelegate {
         ),
         Positioned(
             top: topPadding + offset + 10,
-            right: 16,
+            right: 22,
             child: InkWell(
                 onTap: () {
-                    _showSortOptions(context, onSortSelected);
-
+                  _showSortOptions(context, onSortSelected);
                 },
                 child: const Icon(
                   Icons.sort,
@@ -64,32 +63,68 @@ void _showSortOptions(
     BuildContext context, Function(SortOrder) onSortSelected) {
   showModalBottomSheet(
     context: context,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+    ),
+    isScrollControlled: true,
     builder: (BuildContext context) {
       return Container(
         padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              spreadRadius: 0,
+              blurRadius: 10,
+              offset: const Offset(0, -2),
+            ),
+          ],
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Text(
+              'Sort Options',
+              style: Theme.of(context).textTheme.headline6?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 16),
             ListTile(
-              title: const Text('Sort A-Z'),
+              title: const Text('Sort: A-Z'),
               onTap: () {
                 onSortSelected(SortOrder.aToZ);
                 Navigator.pop(context);
               },
             ),
+            Divider(),
             ListTile(
-              title: const Text('Sort Z-A'),
+              title: const Text('Sort: Z-A'),
               onTap: () {
                 onSortSelected(SortOrder.zToA);
                 Navigator.pop(context);
               },
             ),
+            const Divider(),
             ListTile(
-              title: const Text('Sort By Region'),
+              title: const Text('Sort: Region'),
               onTap: () {
                 onSortSelected(SortOrder.region);
                 Navigator.pop(context);
               },
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(double.infinity, 36), // Full-width button
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text('Cancel'),
             ),
           ],
         ),

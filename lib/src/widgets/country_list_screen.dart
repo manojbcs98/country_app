@@ -16,7 +16,7 @@ class _CountryListViewState extends State<CountryListView> {
   final ScrollController _scrollController = ScrollController();
   bool _isAtBottom = false;
   final TextEditingController _searchController = TextEditingController();
-  SortOrder _selectedSortOrder = SortOrder.aToZ;
+  SortOrder _selectedSortOrder = SortOrder.relevance;
   late final Connectivity _connectivity;
   late Stream<ConnectivityResult> _connectivityStream;
   late ConnectivityResult _previousResult;
@@ -122,6 +122,27 @@ class _CountryListViewState extends State<CountryListView> {
           ),
           BlocBuilder<CountryCubit, CountryState>(
             builder: (context, state) {
+              if (state is CountryLoaded && state.countries.length > 1) {
+                return SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      'Current Sort Order: ${getSortOrderText(_selectedSortOrder)}',
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        //color: Colors.black,
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                return const SliverToBoxAdapter();
+              }
+            },
+          ),
+          BlocBuilder<CountryCubit, CountryState>(
+            builder: (context, state) {
               if (state is CountryLoading) {
                 return SliverToBoxAdapter(
                   child: Center(
@@ -152,7 +173,6 @@ class _CountryListViewState extends State<CountryListView> {
                   return _buildNoCountriesFound('No countries available.',
                       'Please try a different search.');
                 }
-
                 return SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
@@ -223,7 +243,7 @@ class _CountryListViewState extends State<CountryListView> {
   void _scrollToTop() {
     _scrollController.animateTo(
       0,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 1500),
       curve: Curves.easeOut,
     );
   }
