@@ -14,8 +14,6 @@ class CountryCubit extends Cubit<CountryState> {
   Future<void> loadCountries() async {
     emit(CountryLoading());
 
-    // Attempt to load cached countries first
-    await loadCachedCountries();
 
     try {
       final connectivityResult = await Connectivity().checkConnectivity();
@@ -33,22 +31,8 @@ class CountryCubit extends Cubit<CountryState> {
     }
   }
 
-  Future<void> loadCachedCountries() async {
-    try {
-      final cachedCountries =
-          await _countryService.cacheService.getCachedCountries();
-      if (cachedCountries != null && cachedCountries.isNotEmpty) {
-        _allCountries = cachedCountries; // Store cached countries
-        emit(CountryLoaded(cachedCountries)); // Emit loaded cached countries
-      }
-    } catch (e) {
-      emit(CountryError('Error loading cached countries: $e'));
-    }
-  }
-
-  // New method to filter countries based on search term
   void filterCountries(String searchTerm) {
-    if (_allCountries.isEmpty) return; // Ensure there are countries to filter
+    if (_allCountries.isEmpty) return;
 
     final filteredCountries = _allCountries.where((country) {
       return country.commonName
@@ -57,11 +41,11 @@ class CountryCubit extends Cubit<CountryState> {
     }).toList();
 
     emit(CountryLoaded(
-        filteredCountries)); // Emit the new state with filtered countries
+        filteredCountries));
   }
 
   void sortCountries(SortOrder sortOrder) {
-    if (_allCountries.isEmpty) return; // Ensure there are countries to sort
+    if (_allCountries.isEmpty) return;
 
     if (sortOrder == SortOrder.aToZ) {
       _allCountries.sort((a, b) => a.commonName.compareTo(b.commonName));
@@ -71,6 +55,6 @@ class CountryCubit extends Cubit<CountryState> {
       _allCountries.sort((a, b) => a.region.compareTo(b.region));
     }
     emit(CountryLoaded(
-        _allCountries)); // Emit the new state with sorted countries
+        _allCountries));
   }
 }

@@ -1,8 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:country_app/barrel.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class CountryListView extends StatefulWidget {
   const CountryListView({super.key});
@@ -16,12 +17,35 @@ class _CountryListViewState extends State<CountryListView> {
   bool _isAtBottom = false;
   final TextEditingController _searchController = TextEditingController();
   SortOrder _selectedSortOrder = SortOrder.aToZ;
+  late final Connectivity _connectivity;
+  late Stream<ConnectivityResult> _connectivityStream;
+  late ConnectivityResult _previousResult;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_scrollListener);
     _searchController.addListener(_onSearchChanged);
+
+    _connectivity = Connectivity();
+    _connectivityStream = _connectivity.onConnectivityChanged;
+    _previousResult = ConnectivityResult.none; // Initialize previous result
+    bool _isInitialized = false; // Track initialization state
+
+    _connectivityStream.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        showSnackbar('Internet is Off!');
+      } else if (result != ConnectivityResult.none &&
+          _previousResult == ConnectivityResult.none) {
+        _fetchCountries();
+        if (_isInitialized) {
+          showSnackbar('Internet is On!');
+        }
+      }
+      _previousResult = result; // Update the previous result
+
+      _isInitialized = true;
+    });
   }
 
   void _scrollListener() {
@@ -85,7 +109,7 @@ class _CountryListViewState extends State<CountryListView> {
         ],
       ),
       body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         controller: _scrollController,
         slivers: [
           SliverPersistentHeader(
@@ -99,8 +123,27 @@ class _CountryListViewState extends State<CountryListView> {
           BlocBuilder<CountryCubit, CountryState>(
             builder: (context, state) {
               if (state is CountryLoading) {
-                return const SliverToBoxAdapter(
-                  child: Center(child: CircularProgressIndicator()),
+                return SliverToBoxAdapter(
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min, // Center vertically
+                      children: const [
+                        CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(Colors.blueAccent),
+                        ),
+                        SizedBox(height: 20),
+                        Text(
+                          'Please wait while we load...',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               } else if (state is CountryError) {
                 return _buildNoCountriesFound(state.message, '');
@@ -165,7 +208,7 @@ class _CountryListViewState extends State<CountryListView> {
                       fontWeight: FontWeight.bold,
                       color: Colors.black87)),
               const SizedBox(height: 5),
-              if (msg2 != null && msg2 != '')
+              if (msg2 != null && msg2.isNotEmpty)
                 Text(msg2,
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -183,5 +226,38 @@ class _CountryListViewState extends State<CountryListView> {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeOut,
     );
+  }
+
+  void _fetchCountries() {
+    context.read<CountryCubit>().loadCountries();
+  }
+
+  void showSnackbar(String message, {int duration = 3}) {
+    final snackbar = SnackBar(
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            message,
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: const Color(0xFFE0E0E0),
+      duration: Duration(seconds: duration),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+        ),
+      ),
+      behavior: SnackBarBehavior.floating,
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 }

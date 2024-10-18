@@ -5,10 +5,7 @@ import 'package:flutter/material.dart';
 class PlanetCard extends StatelessWidget {
   final Country country;
 
-  const PlanetCard({
-    Key? key,
-    required this.country
-  }) : super(key: key);
+  const PlanetCard({Key? key, required this.country}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +35,7 @@ class PlanetCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                  country.currencyName,
+                    country.currencyName,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 4),
@@ -51,7 +48,6 @@ class PlanetCard extends StatelessWidget {
                     children: [
                       Icon(Icons.location_pin, size: 16),
                       SizedBox(width: 4),
-
                     ],
                   ),
                 ],

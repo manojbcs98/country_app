@@ -1,8 +1,6 @@
 import 'package:country_app/src/utilities/sort_order.dart';
 import 'package:country_app/src/widgets/search_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'bg_wave_ui.dart';
 
 class SliverSearchAppBar extends SliverPersistentHeaderDelegate {
@@ -40,7 +38,8 @@ class SliverSearchAppBar extends SliverPersistentHeaderDelegate {
             right: 16,
             child: InkWell(
                 onTap: () {
-                  _showSortOptions(context, onSortSelected);
+                    _showSortOptions(context, onSortSelected);
+
                 },
                 child: const Icon(
                   Icons.sort,

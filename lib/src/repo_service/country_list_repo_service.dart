@@ -1,9 +1,8 @@
 import 'package:country_app/barrel.dart';
 class CountryService {
   final ICountryApiService _apiService;
-  final ICountryCacheService cacheService;
 
-  CountryService(this._apiService, this.cacheService);
+  CountryService(this._apiService);
 
   Future<List<Country>> fetchCountries() async {
     List<Country> countries = [];
@@ -14,7 +13,7 @@ class CountryService {
       for (var data in countryData) {
         final country = Country.fromJson(data);
         countries.add(country);
-        await cacheService.cacheCountry(country);
+
       }
     } catch (e) {
       throw Exception('Error fetching countries: $e');

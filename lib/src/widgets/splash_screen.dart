@@ -26,9 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
                     BlocProvider(
                       create: (context) => CountryCubit(
                         CountryService(
-                            CountryApiService(), CountryCacheService()),
+                            CountryApiService()),
                       )
-                        ..loadCachedCountries()
                         ..loadCountries(),
                     ),
                   ], child: const CountryListView())),
