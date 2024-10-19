@@ -1,6 +1,7 @@
 import 'package:country_app/barrel.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CountryTile extends StatelessWidget {
   final Country country;
@@ -37,14 +38,24 @@ class CountryTile extends StatelessWidget {
         child: Row(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(8), // Added rounded corners
+              borderRadius: BorderRadius.circular(8),
               child: CachedNetworkImage(
                 imageUrl: country.flagUrl,
                 height: 80,
                 width: 100,
                 fit: BoxFit.cover,
-                placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
+                placeholder: (context, url) => Shimmer.fromColors(
+                  baseColor: Colors.blue.shade50,
+                  highlightColor: Colors.green.shade50,
+                  child: Container(
+                    height: 80,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
@@ -108,7 +119,7 @@ class CountryTile extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            country.symbol,
+                            country.currencyCode,
                             style: const TextStyle(
                               color: Colors.green,
                               fontSize: 14,
