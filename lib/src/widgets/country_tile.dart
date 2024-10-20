@@ -82,7 +82,7 @@ class CountryTile extends StatelessWidget {
                       country.officialName,
                       style: const TextStyle(
                         fontSize: 16,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         color: Colors.black87,
                       ),
                     ),
@@ -98,8 +98,8 @@ class CountryTile extends StatelessWidget {
                           child: Text(
                             country.region,
                             style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
                               color: Colors.black87,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -133,8 +133,8 @@ class CountryTile extends StatelessWidget {
                         child: Text(
                           country.currencyName,
                           style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
                             color: Colors.black87,
                             overflow: TextOverflow.ellipsis,
                           ),

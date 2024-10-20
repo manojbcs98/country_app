@@ -93,7 +93,7 @@ void _showSortOptions(
             ),
             const SizedBox(height: 16),
             ListTile(
-              title: const Text('Sort: A-Z'),
+              title: const Text('Sort: A-Z',style: TextStyle( fontSize: 18,fontWeight: FontWeight.w500)),
               onTap: () {
                 onSortSelected(SortOrder.aToZ);
                 Navigator.pop(context);
@@ -101,7 +101,7 @@ void _showSortOptions(
             ),
             Divider(),
             ListTile(
-              title: const Text('Sort: Z-A'),
+              title: const Text('Sort: Z-A',style: TextStyle( fontSize: 18,fontWeight: FontWeight.w500)),
               onTap: () {
                 onSortSelected(SortOrder.zToA);
                 Navigator.pop(context);
@@ -109,7 +109,7 @@ void _showSortOptions(
             ),
             const Divider(),
             ListTile(
-              title: const Text('Sort: Region'),
+              title: const Text('Sort: Region',style: TextStyle( fontSize: 18,fontWeight: FontWeight.w500)),
               onTap: () {
                 onSortSelected(SortOrder.region);
                 Navigator.pop(context);
@@ -119,12 +119,12 @@ void _showSortOptions(
             ElevatedButton(
               onPressed: () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 36), // Full-width button
+                minimumSize: const Size(double.infinity, 40),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Text('Cancel'),
+              child: const Text('Cancel',style: TextStyle( fontSize: 20,fontWeight: FontWeight.w500)),
             ),
           ],
         ),
