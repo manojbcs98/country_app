@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Country {
   final String commonName;
   final String officialName;
@@ -29,8 +31,16 @@ class Country {
         region: json['region'] ?? 'N/A',
       );
     } catch (e) {
-      print('Error parsing Country: ${e.toString()}');
-      throw Exception('Failed to parse Country: ${e.toString()}');
+      debugPrint('Error parsing Country: ${e.toString()}');
+
+      return Country(
+          commonName: 'N/A',
+          officialName: 'N/A',
+          currencyName: 'N/A',
+          currencyCode: 'N/A',
+          flagUrl: 'N/A',
+          symbol: 'N/A',
+          region: 'N/A');
     }
   }
 
